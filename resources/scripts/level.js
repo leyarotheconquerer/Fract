@@ -1,6 +1,6 @@
-var IntroLevel = function(game) { };
+var Fract.IntroLevel = function(game) { };
 
-IntroLevel.prototype = {
+Fract.IntroLevel.prototype = {
 	preload: function() {
 		this.game.load.image("IntroCenterBackground", "resources/images/IntroBackground.png");
 	},

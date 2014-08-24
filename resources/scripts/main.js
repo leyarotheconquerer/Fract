@@ -1,6 +1,6 @@
 // Main.js
 
-var Game = new Phaser.Game(
+var Fract.Game = new Phaser.Game(
 		800,600,
 		Phaser.Canvas, "game",
 		{
