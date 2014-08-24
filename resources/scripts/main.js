@@ -1,6 +1,6 @@
 // Main.js
 
-var Fract.Game = new Phaser.Game(
+Fract.Game = new Phaser.Game(
 		800,600,
 		Phaser.Canvas, "game",
 		{
@@ -15,7 +15,7 @@ function preload() {
 	this.game.load.bitmapFont("FractFont", "resources/images/font.png", "resources/images/font.xml");
 
 	// Add the game states
-	this.game.state.add("IntroLevel", IntroLevel);
+	this.game.state.add("IntroLevel", Fract.IntroLevel);
 }
 
 function create() {
