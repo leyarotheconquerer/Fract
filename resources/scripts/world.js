@@ -38,6 +38,11 @@ Fract.World.prototype = {
 		var platformGroup = this.game.add.group();
 		var sprite;
 
+		// Set the name of the platform for debug purposes
+		platformGroup.name = platformInfo.Name;
+		platformGroup.angles = [];
+		platformGroup.ids = [];
+
 		// Iterate through each tile, calculate its position, and place it
 		var x;
 		var y;
@@ -60,11 +65,12 @@ Fract.World.prototype = {
 				console.log("   y:" + yPos + " = -1 * (rad:" + radius + " + del:" + verticalDelta + ") * sin(beta:" + tileRotation + ")");*/
 
 				// Create a sprite as part of the platform group
-				if (tiles[y][x].id != 8 || tiles[y][x].id != 12)
+				if (tiles[y][x].id != 8 && tiles[y][x].id != 12)
 				{
 					sprite = platformGroup.create(xPos, yPos, tileMap, tiles[y][x].id);
 					sprite.anchor.setTo(0.5,0.5);
-					sprite.angle = 90 - tileRotation;
+					platformGroup.angles.push(90 - tileRotation);
+					platformGroup.ids.push(tiles[y][x].id);
 				}
 
 				horizontalDelta += tileSize;
@@ -75,6 +81,38 @@ Fract.World.prototype = {
 			horizontalDelta = 0;
 		}
 
+		// Add this tile group to the physics engine
+		this.game.physics.p2.enable(platformGroup, true);
+
+		this.j = 0;
+
+		// Set the physical properties of each tile in the platform
+		platformGroup.forEach(function(tile) {
+			tile.body.setCollisionGroup(this.game.platformGroup);
+			tile.body.setMaterial(this.game.platformMaterial);
+
+			tile.body.static = true;
+			tile.body.angle = platformGroup.angles[this.j];
+
+			tile.body.clearShapes();
+			if(!tile.body.loadPolygon("IntroTilesPhysics", "IntroTile" + platformGroup.ids[this.j++]))
+			{
+				console.log("Argh!");
+			}
+		}, this);
+
 		return platformGroup;
+	},
+
+	collideAgainstPlatforms: function(object) {
+		// For each platform
+		var i;
+		for (i = 0; i < this.platforms.length; ++i)
+		{
+			this.object;
+			//console.log("Checking " + this.platforms[i].name);
+			//this.game.physics.ninja.collide(object, this.platforms[i]);
+
+		}
 	}
 };
