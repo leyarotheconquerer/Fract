@@ -77,7 +77,7 @@ Fract.World.prototype = {
 		}
 
 		// Add this tile group to the physics engine
-		this.game.physics.p2.enable(platformGroup, true);
+		this.game.physics.p2.enable(platformGroup);
 
 		this.j = 0;
 

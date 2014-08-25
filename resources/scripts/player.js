@@ -9,7 +9,7 @@ Fract.Player.prototype = {
 		this.sprite.name = "Player";
 
 		// Add the physics of the player
-		this.game.physics.p2.enable(this.sprite, true);
+		this.game.physics.p2.enable(this.sprite);
 
 		// Load the physics hull
 		this.sprite.body.clearShapes();
