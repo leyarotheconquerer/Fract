@@ -34,29 +34,7 @@ Fract.IntroLevel.prototype = {
 
 		// Set up the physics system
 		this.game.physics.startSystem(Phaser.Physics.P2JS);
-		this.game.physics.p2.gravity.y = 200;
-
-		// Create material types
-		this.game.platformMaterial = this.game.physics.p2.createMaterial("Platform");
-		this.game.playerMaterial = this.game.physics.p2.createMaterial("Player");
-		this.game.worldBoundMaterial = this.game.physics.p2.createMaterial("WorldBounds");
-
-		// Create collision groups
-		this.game.platformGroup = this.game.physics.p2.createCollisionGroup();
-		this.game.playerGroup = this.game.physics.p2.createCollisionGroup();
-		this.game.worldBoundGroup = this.game.physics.p2.createCollisionGroup();
-		this.game.physics.p2.updateBoundsCollisionGroup();
-
-		// Create contact materials
-		playerPlatformContact = this.game.physics.p2.createContactMaterial(this.game.platformMaterial, this.game.playerMaterial);
-
-		playerPlatformContact.friction = .7;
-		playerPlatformContact.restitution = 1.0;
-		playerPlatformContact.stiffness = 1e7;
-		playerPlatformContact.relaxation = 3;
-		playerPlatformContact.frictionStiffness = 1e7;
-		playerPlatformContact.frictionRelaxation = 3;
-		playerPlatformContact.surfaceVelocity = 0.0;
+		this.game.physics.p2.gravity.y = 400;
 
 		// Set up the world background
 		this.game.world.setBounds(-2000, -2000, 4000, 4000);
@@ -99,43 +77,10 @@ Fract.IntroLevel.prototype = {
 		this.pointerDebug.setText("Pointer: (" + pointer.position.x + ", " + pointer.position.y + ")");
 		this.fpsDebug.setText("FPS: (" + this.game.time.fpsMin + "-" + this.game.time.fpsMax + ")");
 
-		// Follow the pointer with the camera
-		/*if (pointer.isDown)
-		{
-			var debugText = this.pointerDebug.text;
-
-			if (pointer.position.x < this.game.camera.width / 2 - 100)
-			{
-				debugText += " L";
-				this.game.camera.x -= 10;
-			}
-			else if (pointer.position.x > this.game.camera.width / 2 + 100)
-			{
-				debugText += " R";
-				this.game.camera.x += 10;
-			}
-
-			if (pointer.position.y < this.game.camera.height / 2 - 100)
-			{
-				debugText += " U";
-				this.game.camera.y -= 10;
-			}
-			else if (pointer.position.y > this.game.camera.height / 2 + 100)
-			{
-				debugText += " D";
-				this.game.camera.y += 10;
-			}
-
-			this.pointerDebug.setText(debugText);
-		}*/
-
 		// Update the level world
 		this.levelWorld.update();
 
 		// Update the player
 		this.player.update();
-
-		// Check the player collision against the world
-		this.levelWorld.collideAgainstPlatforms(this.player.sprite);
 	}
 };

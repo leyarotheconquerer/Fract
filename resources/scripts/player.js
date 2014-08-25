@@ -1,6 +1,6 @@
 Fract.Player = function(game) {
 	this.game = game;
-	this.state = "fly";
+	this.state = "move";
 };
 
 Fract.Player.prototype = {
@@ -16,28 +16,8 @@ Fract.Player.prototype = {
 		this.sprite.body.loadPolygon("PlayerPhysics", "Player");
 
 		// Refine physics parameters
-		this.sprite.body.fixedRotation = true;
+		//this.sprite.body.fixedRotation = true; // Turn off for some fun!!!
 		this.sprite.body.damping = .75;
-
-		// Add the player to the player collision group
-		this.sprite.body.setCollisionGroup(this.game.playerGroup);
-		this.sprite.body.collidesWith = [this.game.platformGroup, this.game.worldBoundGroup];
-
-		// Add a callback for player collisions and break aways
-		/*this.sprite.body.onBeginContact.add(function(body, shapeA, shapeB, equation) {
-			if (this.game.physics.collisionGroups[shapeB.collisionGroup].mask == this.game.platformGroup.mask)
-			{
-				this.state = "move";
-			}
-		}, this);
-
-		this.sprite.body.onEndContact.add(function(body, shapeA, shapeB, equation) {
-			if (this.state == "move" &&
-					this.game.physics.collisionGroups[shapeB.collisionGroup].mask == this.game.platformGroup.mask)
-			{
-				this.state = "fly";
-			}
-		}, this);*/
 
 		// Add some player tracking text
 		this.debugText = this.game.add.bitmapText(10, 70, "FractFont", "");
@@ -54,33 +34,43 @@ Fract.Player.prototype = {
 		var debugText = "Player: (" + Math.floor(this.sprite.x)+ ", " + Math.floor(this.sprite.y)+ ")";
 
 		// Listen for input from the player
-		if (pointer.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
+		if (pointer.isDown ||
+				this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
+				this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
+				this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
 		{
 			// React according to the current player state
 			switch(this.state)
 			{
-			case "fly":
-				debugText += " Flying";
-				//break;
 			// Moving is the default state
 			case "move":
 			default:
-				if (pointer.worldX < this.sprite.x)
+				if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
 				{
 					debugText += " L";
-					this.sprite.body.moveLeft(100);
+					this.sprite.body.moveLeft(300);
+				}
+				else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
+				{
+					debugText += " R";
+					this.sprite.body.moveRight(300);
+				}
+				else if (pointer.worldX < this.sprite.x)
+				{
+					debugText += " L";
+					this.sprite.body.moveLeft(300);
 				}
 				else if (pointer.worldX > this.sprite.x)
 				{
 					debugText += " R";
-					this.sprite.body.moveRight(100);
+					this.sprite.body.moveRight(300);
 				}
 
 				// Temporarily enable a jump
 				if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
 				{
 					debugText += " J";
-					this.sprite.body.moveUp(200);
+					this.sprite.body.moveUp(500);
 				}
 
 				break;

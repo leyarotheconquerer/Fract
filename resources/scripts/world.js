@@ -59,11 +59,6 @@ Fract.World.prototype = {
 				xPos = (radius - verticalDelta) * Math.cos(Math.radians(tileRotation));
 				yPos = -1 * (radius - verticalDelta) * Math.sin(Math.radians(tileRotation)); // Flip y
 
-				/*console.log("Tile (" + x + ", " + y + "):");
-				console.log("   rot:" + tileRotation + " = theta:-" + baseAngle + " - 180 * del:" + horizontalDelta + " / (rad:" + radius + " * Math.PI) + 90");
-				console.log("   x:" + xPos + " = (rad:" + radius + " + del:" + verticalDelta + ") * cos(beta:" + tileRotation + ")");
-				console.log("   y:" + yPos + " = -1 * (rad:" + radius + " + del:" + verticalDelta + ") * sin(beta:" + tileRotation + ")");*/
-
 				// Create a sprite as part of the platform group
 				if (tiles[y][x].id != 8 && tiles[y][x].id != 12)
 				{
@@ -88,31 +83,16 @@ Fract.World.prototype = {
 
 		// Set the physical properties of each tile in the platform
 		platformGroup.forEach(function(tile) {
-			tile.body.setCollisionGroup(this.game.platformGroup);
-			tile.body.setMaterial(this.game.platformMaterial);
-
 			tile.body.static = true;
 			tile.body.angle = platformGroup.angles[this.j];
 
 			tile.body.clearShapes();
 			if(!tile.body.loadPolygon("IntroTilesPhysics", "IntroTile" + platformGroup.ids[this.j++]))
 			{
-				console.log("Argh!");
+				console.log("Argh! Failed to load physics stuff!");
 			}
 		}, this);
 
 		return platformGroup;
-	},
-
-	collideAgainstPlatforms: function(object) {
-		// For each platform
-		var i;
-		for (i = 0; i < this.platforms.length; ++i)
-		{
-			this.object;
-			//console.log("Checking " + this.platforms[i].name);
-			//this.game.physics.ninja.collide(object, this.platforms[i]);
-
-		}
 	}
 };
