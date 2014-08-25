@@ -12,6 +12,7 @@ Fract.Game = new Phaser.Game(
 function preload() {
 	// Load the resources for the title screen
 	this.game.load.image("Title", "resources/images/title.png");
+	this.game.load.image("Loading", "resources/images/Loading.png");
 	this.game.load.bitmapFont("FractFont", "resources/images/font.png", "resources/images/font.xml");
 
 	// Add the game states

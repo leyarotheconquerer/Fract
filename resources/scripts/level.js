@@ -4,9 +4,9 @@ Fract.IntroLevel.prototype = {
 	preload: function() {
 		this.game.time.advancedTiming = true;
 
-		if (this.game.cache.checkImageKey("Title"))
+		if (this.game.cache.checkImageKey("Loading"))
 		{
-			//this.loadingScreen = this.game.add.sprite(0,0,"Title");
+			this.loadingScreen = this.game.add.sprite(0,0,"Loading");
 		}
 
 		if (this.game.cache.checkBitmapFontKey("FractFont"))
